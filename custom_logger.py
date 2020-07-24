@@ -1,10 +1,10 @@
-import logging
+from logging import Handler
 
 
-class MyLogsHandler(logging.Handler):
-    def __init__(self, message_callback):
-            """Constructor"""
-            self.callback = message_callback
+class MyLogsHandler(Handler):
+    def __init__(self, callback):
+        Handler.__init__(self)
+        self.callback = callback
 
     def emit(self, record):
         log_entry = self.format(record)

@@ -20,9 +20,9 @@ def logger_callback(message):
     return telegram_bot.send_message(chat_id=telegram_chat_id, text=message)
 
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 logger.addHandler(MyLogsHandler(logger_callback))
 
 
