@@ -45,9 +45,11 @@ def on_timeout_response(data):
   return { new_timestamp }
 
 
+logger.info('Bot started not from main')
+
 if __name__ == '__main__':
     logger.info('Bot started')
-    
+
     while True:
       headers = {
         "Authorization": "Token {}".format(dvmn_auth_token)
