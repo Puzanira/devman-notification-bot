@@ -4,10 +4,8 @@ import telegram
 import logging
 from datetime import datetime
 
+from custom_logger import MyLogsHandler
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 telegram_bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
 telegram_chat_id = os.environ["CHAT_ID"]
@@ -16,6 +14,16 @@ dvmn_auth_token = os.environ["DVMN_AUTH_TOKEN"]
 telegram_bot = telegram.Bot(token=telegram_bot_token)
 
 api_url = "https://dvmn.org/api/"
+
+
+def logger_callback(message):
+    return telegram_bot.send_message(chat_id=telegram_chat_id, text=message)
+
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.addHandler(MyLogsHandler(logger_callback))
 
 
 def interpret_solution_attempts(attempts):
@@ -44,8 +52,6 @@ def on_timeout_response(data):
   print("Resending with timestamp {} ...".format(new_timestamp))
   return { new_timestamp }
 
-
-logger.info('Bot started not from main')
 
 if __name__ == '__main__':
     logger.info('Bot started')
