@@ -84,4 +84,4 @@ if __name__ == '__main__':
         logger.error("Connection Failed:\n{0}".format(error_connection), exc_info=True)
 
       except Exception as err:
-        logging.error(err, exc_info=True)
+        logger.error(err, exc_info=True)
