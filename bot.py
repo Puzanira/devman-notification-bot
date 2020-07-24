@@ -9,9 +9,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-telegram_bot_token = os.environ("TELEGRAM_BOT_TOKEN")
-telegram_chat_id = os.environ("CHAT_ID")
-dvmn_auth_token = os.environ("DVMN_AUTH_TOKEN")
+telegram_bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
+telegram_chat_id = os.environ["CHAT_ID"]
+dvmn_auth_token = os.environ["DVMN_AUTH_TOKEN"]
 
 telegram_bot = telegram.Bot(token=telegram_bot_token)
 
