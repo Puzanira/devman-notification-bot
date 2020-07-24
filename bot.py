@@ -8,16 +8,18 @@ from custom_logger import MyLogsHandler
 
 
 telegram_bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
+logger_bot_token = os.environ["LOGGER_BOT_TOKEN"]
 telegram_chat_id = os.environ["CHAT_ID"]
 dvmn_auth_token = os.environ["DVMN_AUTH_TOKEN"]
 
 telegram_bot = telegram.Bot(token=telegram_bot_token)
+logger_bot = telegram.Bot(token=logger_bot_token)
 
 api_url = "https://dvmn.org/api/"
 
 
 def logger_callback(message):
-    return telegram_bot.send_message(chat_id=telegram_chat_id, text=message)
+    return logger_bot.send_message(chat_id=telegram_chat_id, text=message)
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -42,14 +44,11 @@ def on_found_response(data):
   new_timestamp = data['last_attempt_timestamp']
   for message in messages:
     telegram_bot.send_message(chat_id=telegram_chat_id, text=message)
-  print("{0} Received attempts with data:\n{1}".format(datetime.now(), data))
   return { new_timestamp }
 
 
 def on_timeout_response(data):
   new_timestamp = data['timestamp_to_request']
-  print("{0} Timeout Occured:".format(datetime.now()))
-  print("Resending with timestamp {} ...".format(new_timestamp))
   return { new_timestamp }
 
 
@@ -82,4 +81,7 @@ if __name__ == '__main__':
         pass
 
       except ConnectionError as error_connection:
-        print("Connection Failed:\n{0}".format(error_connection))
+        logger.error("Connection Failed:\n{0}".format(error_connection), exc_info=True)
+
+      except Exception:
+        logger.exception()
