@@ -1,7 +1,13 @@
 import os
 import requests
 import telegram
+import logging
 from datetime import datetime
+
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 telegram_bot_token = os.environ("TELEGRAM_BOT_TOKEN")
 telegram_chat_id = os.environ("CHAT_ID")
@@ -39,30 +45,33 @@ def on_timeout_response(data):
   return { new_timestamp }
 
 
-while True:
-  headers = {
-    "Authorization": "Token {}".format(dvmn_auth_token)
-  }
-  params = {}
-  
-  try:
-    response = requests.get(
-      api_url + 'long_polling', 
-      timeout=100, 
-      headers=headers,
-      params=params)
-    response.raise_for_status()  
+if __name__ == '__main__':
+    logger.info('Bot started')
+    
+    while True:
+      headers = {
+        "Authorization": "Token {}".format(dvmn_auth_token)
+      }
+      params = {}
 
-    data = response.json()
+      try:
+        response = requests.get(
+          api_url + 'long_polling',
+          timeout=100,
+          headers=headers,
+          params=params)
+        response.raise_for_status()
 
-    if data['status'] == "timeout":
-      params = on_timeout_response(data)
+        data = response.json()
 
-    if data['status'] == "found":
-      params = on_found_response(data)
+        if data['status'] == "timeout":
+          params = on_timeout_response(data)
 
-  except requests.exceptions.ReadTimeout:
-    pass
+        if data['status'] == "found":
+          params = on_found_response(data)
 
-  except ConnectionError as error_connection:
-    print("Connection Failed:\n{0}".format(error_connection))
+      except requests.exceptions.ReadTimeout:
+        pass
+
+      except ConnectionError as error_connection:
+        print("Connection Failed:\n{0}".format(error_connection))
