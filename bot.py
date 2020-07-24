@@ -77,6 +77,8 @@ if __name__ == '__main__':
         if data['status'] == "found":
           params = on_found_response(data)
 
+        0/0
+
       except requests.exceptions.ReadTimeout:
         pass
 
