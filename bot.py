@@ -61,7 +61,6 @@ if __name__ == '__main__':
       params = {}
 
       try:
-        0/0
         response = requests.get(
           api_url + 'long_polling',
           timeout=100,
