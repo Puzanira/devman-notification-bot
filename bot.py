@@ -3,9 +3,9 @@ import requests
 import telegram
 from datetime import datetime
 
-telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-telegram_chat_id = os.getenv("CHAT_ID")
-dvmn_auth_token = os.getenv("DVMN_AUTH_TOKEN")
+telegram_bot_token = os.environ("TELEGRAM_BOT_TOKEN")
+telegram_chat_id = os.environ("CHAT_ID")
+dvmn_auth_token = os.environ("DVMN_AUTH_TOKEN")
 
 telegram_bot = telegram.Bot(token=telegram_bot_token)
 
