@@ -24,7 +24,6 @@ def logger_callback(message):
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 logger.addHandler(MyLogsHandler(logger_callback))
 
 
