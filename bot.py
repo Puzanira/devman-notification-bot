@@ -62,6 +62,7 @@ if __name__ == '__main__':
       params = {}
 
       try:
+        0/0
         response = requests.get(
           api_url + 'long_polling',
           timeout=100,
@@ -77,13 +78,11 @@ if __name__ == '__main__':
         if data['status'] == "found":
           params = on_found_response(data)
 
-        0/0
-
       except requests.exceptions.ReadTimeout:
         pass
 
       except ConnectionError as error_connection:
         logger.error("Connection Failed:\n{0}".format(error_connection), exc_info=True)
 
-      except Exception:
-        logger.exception()
+      except Exception as err:
+        logging.error(err, exc_info=True)
